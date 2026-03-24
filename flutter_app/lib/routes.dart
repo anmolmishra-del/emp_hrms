@@ -25,7 +25,7 @@ class Routes {
   static String onboarding = '/onboarding';
   static String login = '/login';
   static String otp = '/otp';
-  static String admin = '/admin';
+  // static String admin = '/admin';
   static String main = '/main';
   static String leave = '/leave';
   static String myPay = '/myPay';
@@ -49,7 +49,7 @@ class Routes {
       onboarding: (c) => const OnboardingScreen(),
       login: (c) => LoginScreen(),
       otp: (c) => OtpScreen(),
-      admin: (c) => AdminPanelScreen(),
+      // admin: (c) => AdminPanelScreen(),
       main: (c) => MainPage(),
       leave: (c) => LeavePage(),
       myPay: (c) => PayrollScreen(),
