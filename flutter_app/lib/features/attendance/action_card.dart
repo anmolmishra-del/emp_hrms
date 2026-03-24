@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/widget/custome_card.dart';
-import 'package:flutter_app/basic/attendence.dart';
 import 'package:flutter_app/features/attendance/attendance_page.dart';
 
 class HomeActions extends StatelessWidget {

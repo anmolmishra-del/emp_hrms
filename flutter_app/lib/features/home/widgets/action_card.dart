@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/widget/custome_card.dart';
-import 'package:flutter_app/basic/attendence.dart';
-import 'package:flutter_app/features/attendance/attendance_page.dart';
+import 'package:flutter_app/routes.dart';
 
 class AttendanceActions extends StatelessWidget {
   const AttendanceActions({super.key});
@@ -13,41 +12,49 @@ class AttendanceActions extends StatelessWidget {
         'title': 'Leaves',
         'icon': Icons.edit_calendar,
         'color': const Color(0xFF8E7CF0),
+        'routeName': Routes.leavebalance,
       },
       {
         'title': 'MyPay',
         'icon': Icons.list_alt,
         'color': const Color(0xFF00C853),
+        'routeName': Routes.myPay,
       },
       {
         'title': 'In/Out Report',
         'icon': Icons.report,
         'color': const Color(0xFFFF6D00),
+        'routeName': Routes.inOutReport,
       },
       {
         'title': 'Fix Attendance',
         'icon': Icons.calendar_today,
         'color': const Color(0xFF6C63FF),
+        'routeName': Routes.leave,
       },
       {
         'title': 'Doc Box',
         'icon': Icons.swap_horiz,
         'color': const Color(0xFFFF4081),
+        'routeName': Routes.docbox,
       },
       {
         'title': 'Company Calendor',
-        'icon': Icons.location_on,
+        'icon': Icons.calendar_month,
         'color': const Color(0xFF00ACC1),
+        'routeName': Routes.companyCalendar,
       },
       {
         'title': 'Ai Chat Bot',
         'icon': Icons.report,
         'color': const Color(0xFFFF6D00),
+        'routeName': Routes.aichatbot,
       },
       {
         'title': 'Tax Planner',
         'icon': Icons.calendar_today,
         'color': const Color(0xFF6C63FF),
+        'routeName': Routes.leave,
       },
     ];
 
@@ -69,10 +76,7 @@ class AttendanceActions extends StatelessWidget {
           icon: action['icon'] as IconData,
           color: action['color'] as Color,
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const AttendanceScreen()),
-            );
+            Navigator.pushNamed(context, action['routeName'] as String);
           },
         );
       },

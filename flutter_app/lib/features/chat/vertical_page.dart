@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/features/chat/chat_page.dart';
+import 'package:flutter_app/features/chat/tabs.dart';
 
-class TeamVerticalList extends StatelessWidget {
+class TeamVerticalList extends StatefulWidget {
   const TeamVerticalList({super.key});
 
   @override
+  State<TeamVerticalList> createState() => _TeamVerticalListState();
+}
+
+class _TeamVerticalListState extends State<TeamVerticalList> {
+  int selectedIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
+    final List<String> filters = ["All", "Unread", "Teams", "Managers"];
+
     final employees = [
       {
         'id': 'e1',
@@ -85,12 +95,54 @@ class TeamVerticalList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Text(
             'People Connect',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(filters.length, (index) {
+                final isSelected = selectedIndex == index;
+
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? Colors.blue.shade100
+                          : Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Text(
+                      filters[index],
+                      style: TextStyle(
+                        color: isSelected ? Colors.blue : Colors.grey.shade700,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ),
+        Divider(color: Colors.grey.shade100),
+        // const SizedBox(height: 20),
         ListView.separated(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),

@@ -62,15 +62,48 @@ class HomePage extends StatelessWidget {
           // 👤 Profile Avatar
           Padding(
             padding: const EdgeInsets.only(right: 16),
-            child: GestureDetector(
-              onTap: () {
-                // navigate to profile page
+            child: PopupMenuButton<String>(
+              color: Colors.white,
+              offset: const Offset(0, 45), // position below avatar
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              onSelected: (value) {
+                if (value == "profile") {
+                  // Navigate to profile page
+                  // Navigator.push(context,
+                  //   MaterialPageRoute(builder: (_) => ProfilePage()));
+                } else if (value == "logout") {
+                  // Logout logic here
+                  // Navigator.pushReplacement(context,
+                  //   MaterialPageRoute(builder: (_) => LoginPage()));
+                }
               },
+              itemBuilder: (context) => const [
+                PopupMenuItem<String>(
+                  value: "profile",
+                  child: Row(
+                    children: [
+                      Icon(Icons.person_outline),
+                      SizedBox(width: 8),
+                      Text("Go to Profile"),
+                    ],
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: "logout",
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout, color: Colors.red),
+                      SizedBox(width: 8),
+                      Text("Logout", style: TextStyle(color: Colors.red)),
+                    ],
+                  ),
+                ),
+              ],
               child: const CircleAvatar(
                 radius: 18,
-                backgroundImage: AssetImage(
-                  'assets/images/praveen.png', // profile image
-                ),
+                backgroundImage: AssetImage('assets/images/praveen.png'),
               ),
             ),
           ),

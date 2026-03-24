@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/widget/custome_search_bar.dart';
 import 'package:flutter_app/features/chat/chat_list_screen.dart';
+import 'package:flutter_app/features/chat/tabs.dart';
 import 'package:flutter_app/features/chat/vertical_page.dart';
 
 class chatPage extends StatelessWidget {

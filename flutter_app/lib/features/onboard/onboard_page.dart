@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/features/auth/login_screen.dart';
-import 'package:flutter_app/features/main/presentation/main_page.dart';
+import 'package:flutter_app/core/constants/app_images.dart';
+import 'package:flutter_app/core/widget/custome_button.dart';
+import 'package:flutter_app/features/auth/login/presentation/login_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -76,38 +77,51 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             const SizedBox(height: 25),
 
             // Button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF6C8FF8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  onPressed: () {
-                    if (_currentPage == 0) {
-                      _controller.nextPage(
-                        duration: const Duration(milliseconds: 1),
-                        curve: Curves.easeInOut,
-                      );
-                    } else {
-                      _goToMain();
-                    }
-                  },
-                  child: Text(
-                    _currentPage == 0 ? "Next" : "Get Started",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 24),
+            //   child: SizedBox(
+            //     width: double.infinity,
+            //     height: 55,
+            //     child: ElevatedButton(
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: const Color(0xFF6C8FF8),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(30),
+            //         ),
+            //       ),
+            //       onPressed: () {
+            //         if (_currentPage == 0) {
+            //           _controller.nextPage(
+            //             duration: const Duration(milliseconds: 1),
+            //             curve: Curves.easeInOut,
+            //           );
+            //         } else {
+            //           _goToMain();
+            //         }
+            //       },
+            //       child: Text(
+            //         _currentPage == 0 ? "Next" : "Get Started",
+            //         style: const TextStyle(
+            //           fontSize: 16,
+            //           fontWeight: FontWeight.w600,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            CustomGradientButton(
+              text: _currentPage == 0 ? "Next" : "Get Started",
+              onPressed: () {
+                if (_currentPage == 0) {
+                  _controller.nextPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                } else {
+                  _goToMain();
+                }
+              },
             ),
 
             const SizedBox(height: 20),
@@ -135,9 +149,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             style: TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 40),
-          Expanded(
-            child: Image.asset("assets/images/land.png", fit: BoxFit.contain),
-          ),
+          Expanded(child: Image.asset(AppImages.land, fit: BoxFit.contain)),
         ],
       ),
     );
@@ -161,9 +173,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             style: TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 40),
-          Expanded(
-            child: Image.asset("assets/images/land2.png", fit: BoxFit.contain),
-          ),
+          Expanded(child: Image.asset(AppImages.land2, fit: BoxFit.contain)),
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/routes.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -115,43 +116,64 @@ class ProfileScreen extends StatelessWidget {
 
                   // ---------- SETTINGS ----------
                   // ---------- SETTINGS ----------
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.badge_outlined,
                     title: "Job Details",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.jobdetails);
+                    },
                   ),
+                  // Divider(),
+                  // _SettingTile(
+                  //   icon: Icons.person_outline,
+                  //   title: "Personal Information",
+                  //   onTap: () {
+                  //     Navigator.pushNamed(context, Routes.personalinf);
+                  //   },
+                  // ),
                   Divider(),
-                  const _SettingTile(
-                    icon: Icons.person_outline,
-                    title: "Personal Information",
-                  ),
-                  Divider(),
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.event_available_outlined,
                     title: "Leave Balance",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.leavebalance);
+                    },
                   ),
                   Divider(),
 
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.bar_chart_outlined,
                     title: "Performance Reviews",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.performRev);
+                    },
                   ),
                   Divider(),
 
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.calendar_month_outlined,
                     title: "Holidays Calendar",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.holidayCalendar);
+                    },
                   ),
                   Divider(),
 
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.receipt_long_outlined,
                     title: "Reimbursements",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.reimbursements);
+                    },
                   ),
                   Divider(),
 
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.school_outlined,
                     title: "Training & Learning",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.learnTraing);
+                    },
                   ),
                   Divider(),
 
@@ -160,30 +182,45 @@ class ProfileScreen extends StatelessWidget {
                     title: "Assets Assigned",
                   ),
                   Divider(),
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.lock_outline,
                     title: "Change Password",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.changepassword);
+                    },
                   ),
                   Divider(),
 
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.notifications_none_outlined,
                     title: "Notifications",
                     trailing: _Badge(count: 3),
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.notifications);
+                    },
                   ),
                   Divider(),
 
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.language_outlined,
                     title: "Language",
+                    onTap: () {
+                      Navigator.pushNamed(context, Routes.language);
+                    },
                   ),
                   Divider(),
 
-                  const _SettingTile(
+                  _SettingTile(
                     icon: Icons.logout,
                     title: "Logout",
                     titleColor: Colors.red,
                     iconColor: Colors.red,
+                    onTap: () async {
+                      // await context.read<ProfileCubit>().logout();
+                      Navigator.of(
+                        context,
+                      ).pushNamedAndRemoveUntil('/login', (route) => false);
+                    },
                   ),
                 ],
               ),
@@ -259,6 +296,7 @@ class _SettingTile extends StatelessWidget {
   final Widget? trailing;
   final Color? titleColor;
   final Color? iconColor;
+  final VoidCallback? onTap;
 
   const _SettingTile({
     required this.icon,
@@ -267,6 +305,7 @@ class _SettingTile extends StatelessWidget {
     this.trailing,
     this.titleColor,
     this.iconColor,
+    this.onTap,
   });
 
   @override
@@ -275,6 +314,7 @@ class _SettingTile extends StatelessWidget {
       children: [
         ListTile(
           dense: true,
+          onTap: onTap,
           leading: Icon(icon, color: iconColor ?? Colors.blue),
           title: Text(
             title,
