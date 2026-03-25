@@ -1,6 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/features/auth/login/repository/login_repository.dart';
+import 'package:flutter_app/features/otp/cubit/otp_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/services/api_service.dart';
+
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
@@ -12,26 +17,23 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   late String mobile;
 
-  final List<TextEditingController> controllers = List.generate(
-    6,
-    (_) => TextEditingController(),
-  );
+  final List<TextEditingController> controllers =
+      List.generate(6, (_) => TextEditingController());
 
-  final List<FocusNode> focusNodes = List.generate(6, (_) => FocusNode());
+  final List<FocusNode> focusNodes =
+      List.generate(6, (_) => FocusNode());
 
   Timer? timer;
   int secondsRemaining = 30;
   bool enableResend = false;
 
-  bool get isOtpValid => controllers.every((c) => c.text.isNotEmpty);
+  bool get isOtpValid =>
+      controllers.every((c) => c.text.isNotEmpty);
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
-    /// Get mobile from route
     mobile = ModalRoute.of(context)!.settings.arguments as String;
-
     startTimer();
   }
 
@@ -47,7 +49,9 @@ class _OtpScreenState extends State<OtpScreen> {
     super.dispose();
   }
 
+  ////////////////////////////////////////////////
   /// TIMER
+  ////////////////////////////////////////////////
   void startTimer() {
     secondsRemaining = 30;
     enableResend = false;
@@ -63,31 +67,40 @@ class _OtpScreenState extends State<OtpScreen> {
     });
   }
 
+  ////////////////////////////////////////////////
   /// RESEND OTP
+  ////////////////////////////////////////////////
   void resendOTP() {
     startTimer();
 
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text("OTP Resent")));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("OTP Resent")),
+    );
   }
 
+  ////////////////////////////////////////////////
   /// VERIFY OTP
-  void verifyOTP() {
+  ////////////////////////////////////////////////
+  void verifyOTP(BuildContext context) {
     final otp = controllers.map((c) => c.text).join();
 
     if (otp.length != 6) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Enter valid 6-digit OTP")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Enter valid 6-digit OTP")),
+      );
       return;
     }
 
-    /// ✅ Navigate to Main Page
-    Navigator.pushReplacementNamed(context, "/main");
+    context.read<OtpCubit>().verifyOtp(
+          context,
+          mobile,
+          otp,
+        );
   }
 
+  ////////////////////////////////////////////////
   /// OTP BOX
+  ////////////////////////////////////////////////
   Widget buildOtpBox(int index) {
     return SizedBox(
       width: 45,
@@ -101,78 +114,96 @@ class _OtpScreenState extends State<OtpScreen> {
         maxLength: 1,
         decoration: InputDecoration(
           counterText: "",
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
         onChanged: (value) {
-          /// Move forward
           if (value.isNotEmpty && index < 5) {
             FocusScope.of(context).nextFocus();
-          }
-
-          /// Move backward
-          if (value.isEmpty && index > 0) {
+          } else if (value.isEmpty && index > 0) {
             FocusScope.of(context).previousFocus();
           }
-
-          setState(() {}); // update button state
+          setState(() {});
         },
       ),
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("OTP Verification")),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
+Widget build(BuildContext context) {
+  return BlocProvider(
+    create: (_) => OtpCubit(
+      LoginRepository(ApiService()),
+    ),
+    child: Builder( // ✅ IMPORTANT FIX
+      builder: (context) {
+        return Scaffold(
+          appBar: AppBar(title: const Text("OTP Verification")),
+          body: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
 
-            Text(
-              "Enter OTP sent to $mobile",
-              style: const TextStyle(fontSize: 16),
-            ),
-
-            const SizedBox(height: 40),
-
-            /// OTP BOXES
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: List.generate(6, buildOtpBox),
-            ),
-
-            const SizedBox(height: 20),
-
-            /// TIMER / RESEND
-            enableResend
-                ? TextButton(
-                    onPressed: resendOTP,
-                    child: const Text("Resend OTP"),
-                  )
-                : Text(
-                    "Resend in $secondsRemaining s",
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-
-            const Spacer(),
-
-            /// VERIFY BUTTON
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: isOtpValid ? verifyOTP : null,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isOtpValid ? Colors.blue : Colors.grey,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
+                Text(
+                  "Enter OTP sent to $mobile",
+                  style: const TextStyle(fontSize: 16),
                 ),
-                child: const Text("Verify OTP"),
-              ),
+
+                const SizedBox(height: 40),
+
+                /// OTP BOXES
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(6, buildOtpBox),
+                ),
+
+                const SizedBox(height: 20),
+
+                /// TIMER / RESEND
+                enableResend
+                    ? TextButton(
+                        onPressed: resendOTP,
+                        child: const Text("Resend OTP"),
+                      )
+                    : Text(
+                        "Resend in $secondsRemaining s",
+                        style: const TextStyle(color: Colors.grey),
+                      ),
+
+                const Spacer(),
+
+                /// VERIFY BUTTON
+                BlocBuilder<OtpCubit, bool>(
+                  builder: (context, loading) {
+                    return SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: isOtpValid && !loading
+                            ? () => verifyOTP(context) // ✅ correct context
+                            : null,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isOtpValid
+                              ? Colors.blue
+                              : Colors.grey,
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                        ),
+                        child: loading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const Text("Verify OTP"),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
+          ),
+        );
+      },
+    ),
+  );
+}
 }

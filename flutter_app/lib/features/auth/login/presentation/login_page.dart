@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/core/services/api_service.dart';
+import 'package:flutter_app/features/auth/login/repository/login_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_app/features/auth/login/cubit/login_cubit.dart';
 import 'package:flutter_app/features/auth/login/state/login_state.dart';
 import 'package:flutter_app/core/constants/app_images.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  final apiService = ApiService();
+ final LoginRepository loginRepo = LoginRepository(ApiService());
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => LoginCubit(),
-
+      create: (_) => LoginCubit(loginRepo), // ✅ FIXED (comma added)
       child: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
           final cubit = context.read<LoginCubit>();
@@ -78,9 +82,7 @@ class LoginScreen extends StatelessWidget {
                                         hintText: "Enter Mobile Number",
                                         prefixIcon: const Icon(Icons.phone),
                                         border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
-                                          ),
+                                          borderRadius: BorderRadius.circular(12),
                                         ),
                                       ),
                                       validator: cubit.validateMobile,
@@ -101,8 +103,8 @@ class LoginScreen extends StatelessWidget {
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor:
                                                     state.isValidMobile
-                                                    ? Colors.blue
-                                                    : Colors.grey,
+                                                        ? Colors.blue
+                                                        : Colors.grey,
                                               ),
                                               child: const Text("Send OTP"),
                                             ),
