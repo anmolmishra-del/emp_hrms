@@ -6,7 +6,6 @@ import 'package:flutter_app/features/otp/cubit/otp_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/services/api_service.dart';
 
-
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
 
@@ -17,18 +16,18 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   late String mobile;
 
-  final List<TextEditingController> controllers =
-      List.generate(6, (_) => TextEditingController());
+  final List<TextEditingController> controllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
 
-  final List<FocusNode> focusNodes =
-      List.generate(6, (_) => FocusNode());
+  final List<FocusNode> focusNodes = List.generate(6, (_) => FocusNode());
 
   Timer? timer;
   int secondsRemaining = 30;
   bool enableResend = false;
 
-  bool get isOtpValid =>
-      controllers.every((c) => c.text.isNotEmpty);
+  bool get isOtpValid => controllers.every((c) => c.text.isNotEmpty);
 
   @override
   void didChangeDependencies() {
@@ -73,9 +72,9 @@ class _OtpScreenState extends State<OtpScreen> {
   void resendOTP() {
     startTimer();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("OTP Resent")),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("OTP Resent")));
   }
 
   ////////////////////////////////////////////////
@@ -85,17 +84,13 @@ class _OtpScreenState extends State<OtpScreen> {
     final otp = controllers.map((c) => c.text).join();
 
     if (otp.length != 6) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Enter valid 6-digit OTP")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Enter valid 6-digit OTP")));
       return;
     }
 
-    context.read<OtpCubit>().verifyOtp(
-          context,
-          mobile,
-          otp,
-        );
+    context.read<OtpCubit>().verifyOtp(context, mobile, otp);
   }
 
   ////////////////////////////////////////////////
@@ -114,9 +109,7 @@ class _OtpScreenState extends State<OtpScreen> {
         maxLength: 1,
         decoration: InputDecoration(
           counterText: "",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         onChanged: (value) {
           if (value.isNotEmpty && index < 5) {
@@ -131,79 +124,79 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 
   @override
-Widget build(BuildContext context) {
-  return BlocProvider(
-    create: (_) => OtpCubit(
-      LoginRepository(ApiService()),
-    ),
-    child: Builder( // ✅ IMPORTANT FIX
-      builder: (context) {
-        return Scaffold(
-          appBar: AppBar(title: const Text("OTP Verification")),
-          body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => OtpCubit(LoginRepository(ApiService())),
+      child: Builder(
+        // ✅ IMPORTANT FIX
+        builder: (context) {
+          return Scaffold(
+            appBar: AppBar(title: const Text("OTP Verification")),
+            body: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
 
-                Text(
-                  "Enter OTP sent to $mobile",
-                  style: const TextStyle(fontSize: 16),
-                ),
+                  Text(
+                    "Enter OTP sent to $mobile",
+                    style: const TextStyle(fontSize: 16),
+                  ),
 
-                const SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
-                /// OTP BOXES
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(6, buildOtpBox),
-                ),
+                  /// OTP BOXES
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(6, buildOtpBox),
+                  ),
 
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                /// TIMER / RESEND
-                enableResend
-                    ? TextButton(
-                        onPressed: resendOTP,
-                        child: const Text("Resend OTP"),
-                      )
-                    : Text(
-                        "Resend in $secondsRemaining s",
-                        style: const TextStyle(color: Colors.grey),
-                      ),
-
-                const Spacer(),
-
-                /// VERIFY BUTTON
-                BlocBuilder<OtpCubit, bool>(
-                  builder: (context, loading) {
-                    return SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: isOtpValid && !loading
-                            ? () => verifyOTP(context) // ✅ correct context
-                            : null,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isOtpValid
-                              ? Colors.blue
-                              : Colors.grey,
-                          padding: const EdgeInsets.symmetric(vertical: 15),
+                  /// TIMER / RESEND
+                  enableResend
+                      ? TextButton(
+                          onPressed: resendOTP,
+                          child: const Text("Resend OTP"),
+                        )
+                      : Text(
+                          "Resend in $secondsRemaining s",
+                          style: const TextStyle(color: Colors.grey),
                         ),
-                        child: loading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : const Text("Verify OTP"),
-                      ),
-                    );
-                  },
-                ),
-              ],
+
+                  const Spacer(),
+
+                  /// VERIFY BUTTON
+                  BlocBuilder<OtpCubit, bool>(
+                    builder: (context, loading) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: isOtpValid && !loading
+                              ? () =>
+                                    verifyOTP(context) // ✅ correct context
+                              : null,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isOtpValid
+                                ? Colors.blue
+                                : Colors.grey,
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                          ),
+                          child: loading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const Text("Verify OTP"),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
-    ),
-  );
-}
+          );
+        },
+      ),
+    );
+  }
 }

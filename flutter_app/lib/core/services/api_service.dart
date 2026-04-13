@@ -8,11 +8,11 @@ class ApiService {
     dio = Dio(
       BaseOptions(
         baseUrl: "https://suppositionless-geralyn-jovially.ngrok-free.dev",
-       headers: {
-    "Content-Type": "application/json",
-    "accept": "application/json",
-    "ngrok-skip-browser-warning": "true",
-  },
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
+          "ngrok-skip-browser-warning": "true",
+        },
       ),
     );
 
@@ -32,42 +32,27 @@ class ApiService {
     );
   }
 
-  ////////////////////////////////////////////////
   /// GET
   ////////////////////////////////////////////////
-  Future<Response> get(
-    String path, {
-    Map<String, dynamic>? query,
-  }) async {
+  Future<Response> get(String path, {Map<String, dynamic>? query}) async {
     return await dio.get(path, queryParameters: query);
   }
 
-  ////////////////////////////////////////////////
   /// POST
   ////////////////////////////////////////////////
-  Future<Response> post(
-    String path, {
-    dynamic data,
-  }) async {
+  Future<Response> post(String path, {dynamic data}) async {
     return await dio.post(path, data: data);
   }
 
-  ////////////////////////////////////////////////
   /// PUT
   ////////////////////////////////////////////////
-  Future<Response> put(
-    String path, {
-    dynamic data,
-  }) async {
+  Future<Response> put(String path, {dynamic data}) async {
     return await dio.put(path, data: data);
   }
 
-  ////////////////////////////////////////////////
   /// DELETE
   ////////////////////////////////////////////////
-  Future<Response> delete(
-    String path,
-  ) async {
+  Future<Response> delete(String path) async {
     return await dio.delete(path);
   }
 }

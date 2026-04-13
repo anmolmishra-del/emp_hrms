@@ -18,7 +18,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, __, ___) =>  LoginScreen(),
+        pageBuilder: (_, __, ___) => LoginScreen(),
+        // pageBuilder: (_, __, ___) => MainPage(),
         transitionDuration: Duration.zero,
         reverseTransitionDuration: Duration.zero,
       ),

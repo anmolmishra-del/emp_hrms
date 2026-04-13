@@ -3,17 +3,13 @@ class ProfileState {
   final String role;
   final bool loading;
 
-  ProfileState({
-    this.name = "",
-    this.role = "",
-    this.loading = true,
-  });
+  ProfileState({this.name = "", this.role = "", this.loading = true});
 
-  ProfileState copyWith({
-    String? name,
-    String? role,
-    bool? loading,
-  }) {
+  Object? get manager => null;
+
+  Object? get user => null;
+
+  ProfileState copyWith({String? name, String? role, bool? loading}) {
     return ProfileState(
       name: name ?? this.name,
       role: role ?? this.role,

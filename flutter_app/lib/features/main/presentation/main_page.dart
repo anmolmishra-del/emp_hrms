@@ -5,7 +5,7 @@ import 'package:flutter_app/features/home/presentation/home_page.dart';
 import 'package:flutter_app/features/main/cubit/main_cubit.dart';
 import 'package:flutter_app/features/main/state/main_state.dart';
 import 'package:flutter_app/features/payroll/payroll_screen.dart';
-import 'package:flutter_app/features/profile/profile_screen.dart';
+import 'package:flutter_app/features/profile/pages/profile_screen/ui/profile_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPage extends StatelessWidget {

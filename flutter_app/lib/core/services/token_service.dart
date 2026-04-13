@@ -11,6 +11,7 @@ class TokenService {
 
     await prefs.setString(_tokenKey, auth.accessToken);
     await prefs.setString(_userKey, jsonEncode(auth.user));
+    await prefs.setBool('is_logged_in', true);
   }
 
   static Future<String?> getToken() async {
@@ -31,5 +32,17 @@ class TokenService {
   static Future<void> clear() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+  }
+
+  static Future<int?> getEmployeeId() async {
+    final user = await getUser();
+
+    if (user == null) return null;
+
+    final rawId = user['employee_id'] ?? user['id'];
+
+    if (rawId == null) return null;
+
+    return int.tryParse(rawId.toString());
   }
 }

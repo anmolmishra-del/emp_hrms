@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../repository/login_repository.dart';
 import '../state/login_state.dart';
 
-
 class LoginCubit extends Cubit<LoginState> {
   final LoginRepository repo;
 
@@ -22,33 +21,31 @@ class LoginCubit extends Cubit<LoginState> {
   void onMobileChanged(String value) {
     emit(state.copyWith(isValidMobile: value.length == 10));
   }
-Future<void> sendOtp(BuildContext context) async {
-  print("SEND OTP CLICKED");
 
-  if (!formKey.currentState!.validate()) return;
+  Future<void> sendOtp(BuildContext context) async {
+    print("SEND OTP CLICKED");
 
-  emit(state.copyWith(status: LoginStatus.loading));
+    if (!formKey.currentState!.validate()) return;
 
-  final result = await repo.sendOtp(mobileController.text);
+    emit(state.copyWith(status: LoginStatus.loading));
 
-  if (result.success) {
-    emit(state.copyWith(status: LoginStatus.success));
+    final result = await repo.sendOtp(mobileController.text);
+    print(result);
+    if (result.success) {
+      emit(state.copyWith(status: LoginStatus.success));
 
-    Navigator.pushNamed(
-      context,
-      Routes.otp,
-      arguments: mobileController.text,
-    );
-  } else {
-    emit(state.copyWith(status: LoginStatus.error));
+      Navigator.pushNamed(
+        context,
+        Routes.otp,
+        arguments: mobileController.text,
+      );
+    } else {
+      emit(state.copyWith(status: LoginStatus.error));
 
-    /// 🔥 SHOW ERROR MESSAGE
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(result.message),
-        backgroundColor: Colors.red,
-      ),
-    );
+      /// 🔥 SHOW ERROR MESSAGE
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result.message), backgroundColor: Colors.red),
+      );
+    }
   }
-}
 }

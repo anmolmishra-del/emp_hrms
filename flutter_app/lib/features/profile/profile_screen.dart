@@ -1,371 +1,356 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_app/routes.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_app/routes.dart';
+// import '../../../core/services/token_service.dart';
+// import 'package:intl/intl.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_app/routes.dart';
-import '../../../core/services/token_service.dart';
+// String formatDate(String? dateStr) {
+//   if (dateStr == null) return "No Date";
+//   final dateTime = DateTime.parse(dateStr);
+//   return DateFormat("dd/MM/yyyy").format(dateTime);
+// }
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+// class ProfileScreen extends StatelessWidget {
+//   const ProfileScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, dynamic>?>(
-      future: TokenService.getUser(),
-      builder: (context, snapshot) {
-        final user = snapshot.data;
+//   @override
+//   Widget build(BuildContext context) {
+//     return FutureBuilder<Map<String, dynamic>?>(
+//       future: TokenService.getUser(),
+//       builder: (context, snapshot) {
+//         final user = snapshot.data;
+//         final manager = snapshot.data;
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return const Scaffold(
+//             body: Center(child: CircularProgressIndicator()),
+//           );
+//         }
 
-        return Scaffold(
-          backgroundColor: Colors.white,
-          body: Column(
-            children: [
-              const SizedBox(height: 50),
+//         return Scaffold(
+//           backgroundColor: Colors.white,
+//           body: Column(
+//             children: [
+//               const SizedBox(height: 50),
 
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      ////////////////////////////////////////////////
-                      /// USER CARD (DYNAMIC)
-                      ////////////////////////////////////////////////
-                      _WhiteCard(
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  radius: 28,
-                                  backgroundImage: NetworkImage(
-                                    "https://i.pravatar.cc/150",
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
+//               Expanded(
+//                 child: SingleChildScrollView(
+//                   padding: const EdgeInsets.all(16),
+//                   child: Column(
+//                     children: [
+//                       _WhiteCard(
+//                         child: Column(
+//                           children: [
+//                             Row(
+//                               children: [
+//                                 const CircleAvatar(
+//                                   radius: 28,
+//                                   backgroundImage: NetworkImage(
+//                                     "https://i.pravatar.cc/150",
+//                                   ),
+//                                 ),
+//                                 const SizedBox(width: 12),
 
-                                Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      user?["full_name"] ?? "User",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      user?["role"] ?? "",
-                                      style: const TextStyle(
-                                          color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+//                                 Column(
+//                                   crossAxisAlignment: CrossAxisAlignment.start,
+//                                   children: [
+//                                     Text(
+//                                       user?["full_name"] ?? "User",
+//                                       style: const TextStyle(
+//                                         fontSize: 16,
+//                                         fontWeight: FontWeight.w600,
+//                                       ),
+//                                     ),
 
-                            const Divider(height: 24),
-                             _InfoLine(user?["employee_code"]??""),
-                            const _InfoLine("IT Department"),
-                            const _InfoLine("Joining: 23/10/2024"),
-                          ],
-                        ),
-                      ),
+//                                     const SizedBox(height: 4),
+//                                     Text(
+//                                       user?["role"] ?? "",
+//                                       style: const TextStyle(
+//                                         color: Colors.grey,
+//                                       ),
+//                                     ),
+//                                   ],
+//                                 ),
+//                               ],
+//                             ),
 
-                      const SizedBox(height: 12),
+//                             const Divider(height: 24),
+//                             _InfoLine(user?["employee_code"] ?? ""),
+//                             const _InfoLine("IT Department"),
+//                             _InfoLine(
+//                               "Joining: ${formatDate(user?["date_of_joining"])}",
+//                             ),
+//                           ],
+//                         ),
+//                       ),
 
-                      ////////////////////////////////////////////////
-                      /// REMAINING CODE (UNCHANGED)
-                      ////////////////////////////////////////////////
-                      _WhiteCard(
-                        title: "Reporting Manager",
-                        child: Row(
-                          children: const [
-                            CircleAvatar(
-                              radius: 20,
-                              backgroundImage: NetworkImage(
-                                "https://i.pravatar.cc/100",
-                              ),
-                            ),
-                            SizedBox(width: 12),
-                            Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  " Sham Prasad Podaralla",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(height: 2),
-                                Text(
-                                  "CSIO",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+//                       const SizedBox(height: 12),
 
-                      const SizedBox(height: 12),
+//                       ////////////////////////////////////////////////
+//                       /// REMAINING CODE (UNCHANGED)
+//                       ////////////////////////////////////////////////
+//                       _WhiteCard(
+//                         title: "Reporting Manager",
+//                         child: Row(
+//                           children: [
+//                             CircleAvatar(
+//                               radius: 20,
+//                               backgroundImage: NetworkImage(
+//                                 "https://i.pravatar.cc/100",
+//                               ),
+//                             ),
+//                             SizedBox(width: 12),
+//                             Column(
+//                               crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 Text(
+//                                   manager?["full_name"] ?? "",
+//                                   style: TextStyle(fontWeight: FontWeight.w600),
+//                                 ),
+//                                 SizedBox(height: 2),
+//                                 Text(
+//                                   manager?["role"] ?? "",
+//                                   style: TextStyle(
+//                                     fontSize: 12,
+//                                     color: Colors.grey,
+//                                   ),
+//                                 ),
+//                               ],
+//                             ),
+//                           ],
+//                         ),
+//                       ),
 
-                      _SettingTile(
-                        icon: Icons.badge_outlined,
-                        title: "Job Details",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.jobdetails);
-                        },
-                      ),
-                      const Divider(),
+//                       const SizedBox(height: 12),
 
-                      _SettingTile(
-                        icon: Icons.event_available_outlined,
-                        title: "Leave Balance",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.leavebalance);
-                        },
-                      ),
-                      const Divider(),
+//                     _SettingTile(
+//                         icon: Icons.event_available_outlined,
+//                         title: "Leave Balance",
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.jobdetails);
+//                         },
+//                       ),
+//                       const Divider(),
 
-                      _SettingTile(
-                        icon: Icons.bar_chart_outlined,
-                        title: "Performance Reviews",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.performRev);
-                        },
-                      ),
-                      const Divider(),
+//                       _SettingTile(
+//                         icon: Icons.event_available_outlined,
+//                         title: "Leave Balance",
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.leavebalance);
+//                         },
+//                       ),
+//                       const Divider(),
 
-                      _SettingTile(
-                        icon: Icons.calendar_month_outlined,
-                        title: "Holidays Calendar",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.holidayCalendar);
-                        },
-                      ),
-                      const Divider(),
+//                       _SettingTile(
+//                         icon: Icons.bar_chart_outlined,
+//                         title: "Performance Reviews",
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.performRev);
+//                         },
+//                       ),
+//                       const Divider(),
 
-                      _SettingTile(
-                        icon: Icons.receipt_long_outlined,
-                        title: "Reimbursements",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.reimbursements);
-                        },
-                      ),
-                      const Divider(),
+//                       _SettingTile(
+//                         icon: Icons.calendar_month_outlined,
+//                         title: "Holidays Calendar",
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.holidayCalendar);
+//                         },
+//                       ),
+//                       const Divider(),
 
-                      _SettingTile(
-                        icon: Icons.school_outlined,
-                        title: "Training & Learning",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.learnTraing);
-                        },
-                      ),
-                      const Divider(),
+//                       _SettingTile(
+//                         icon: Icons.receipt_long_outlined,
+//                         title: "Reimbursements",
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.reimbursements);
+//                         },
+//                       ),
+//                       const Divider(),
 
-                      const _SettingTile(
-                        icon: Icons.assignment_turned_in_outlined,
-                        title: "Assets Assigned",
-                      ),
-                      const Divider(),
+//                       _SettingTile(
+//                         icon: Icons.school_outlined,
+//                         title: "Training & Learning",
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.learnTraing);
+//                         },
+//                       ),
+//                       const Divider(),
 
-                      _SettingTile(
-                        icon: Icons.lock_outline,
-                        title: "Change Password",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.changepassword);
-                        },
-                      ),
-                      const Divider(),
+//                       const _SettingTile(
+//                         icon: Icons.assignment_turned_in_outlined,
+//                         title: "Assets Assigned",
+//                       ),
+//                       const Divider(),
 
-                      _SettingTile(
-                        icon: Icons.notifications_none_outlined,
-                        title: "Notifications",
-                        trailing: _Badge(count: 3),
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.notifications);
-                        },
-                      ),
-                      const Divider(),
+//                       _SettingTile(
+//                         icon: Icons.lock_outline,
+//                         title: "Change Password",
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.changepassword);
+//                         },
+//                       ),
+//                       const Divider(),
 
-                      _SettingTile(
-                        icon: Icons.language_outlined,
-                        title: "Language",
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.language);
-                        },
-                      ),
-                      const Divider(),
+//                       _SettingTile(
+//                         icon: Icons.notifications_none_outlined,
+//                         title: "Notifications",
+//                         trailing: _Badge(count: 3),
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.notifications);
+//                         },
+//                       ),
+//                       const Divider(),
 
-                      _SettingTile(
-                        icon: Icons.logout,
-                        title: "Logout",
-                        titleColor: Colors.red,
-                        iconColor: Colors.red,
-                        onTap: () async {
-                          Navigator.of(context)
-                              .pushNamedAndRemoveUntil(
-                            '/login',
-                            (route) => false,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
+//                       _SettingTile(
+//                         icon: Icons.language_outlined,
+//                         title: "Language",
+//                         onTap: () {
+//                           Navigator.pushNamed(context, Routes.language);
+//                         },
+//                       ),
+//                       const Divider(),
 
-class _InfoLine extends StatelessWidget {
-  final String text;
+//                       _SettingTile(
+//                         icon: Icons.logout,
+//                         title: "Logout",
+//                         titleColor: Colors.red,
+//                         iconColor: Colors.red,
+//                         onTap: () async {
+//                           Navigator.of(
+//                             context,
+//                           ).pushNamedAndRemoveUntil('/login', (route) => false);
+//                         },
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
-  const _InfoLine(this.text);
+// class _InfoLine extends StatelessWidget {
+//   final String text;
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 13, color: Colors.grey),
-        ),
-      ),
-    );
-  }
-}
+//   const _InfoLine(this.text);
 
-class _WhiteCard extends StatelessWidget {
-  final String? title;
-  final Widget child;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.symmetric(vertical: 4),
+//       child: Align(
+//         alignment: Alignment.centerLeft,
+//         child: Text(
+//           text,
+//           style: const TextStyle(fontSize: 13, color: Colors.grey),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-  const _WhiteCard({this.title, required this.child});
+// class _WhiteCard extends StatelessWidget {
+//   final String? title;
+//   final Widget child;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6)],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (title != null) ...[
-            Text(
-              title!,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: Colors.grey,
-              ),
-            ),
-            const Divider(),
-          ],
-          child,
-        ],
-      ),
-    );
-  }
-}
+//   const _WhiteCard({this.title, required this.child});
 
-class _SettingTile extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String? subtitle;
-  final Widget? trailing;
-  final Color? titleColor;
-  final Color? iconColor;
-  final VoidCallback? onTap;
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: double.infinity,
+//       padding: const EdgeInsets.all(14),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(16),
+//         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6)],
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           if (title != null) ...[
+//             Text(
+//               title!,
+//               style: const TextStyle(
+//                 fontSize: 13,
+//                 fontWeight: FontWeight.w600,
+//                 color: Colors.grey,
+//               ),
+//             ),
+//             const Divider(),
+//           ],
+//           child,
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-  const _SettingTile({
-    required this.icon,
-    required this.title,
-    this.subtitle,
-    this.trailing,
-    this.titleColor,
-    this.iconColor,
-    this.onTap,
-  });
+// class _SettingTile extends StatelessWidget {
+//   final IconData icon;
+//   final String title;
+//   final String? subtitle;
+//   final Widget? trailing;
+//   final Color? titleColor;
+//   final Color? iconColor;
+//   final VoidCallback? onTap;
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          dense: true,
-          onTap: onTap,
-          leading: Icon(icon, color: iconColor ?? Colors.blue),
-          title: Text(
-            title,
-            style: TextStyle(
-              color: titleColor ?? Colors.black,
-              fontWeight: FontWeight.w500,
-              fontSize: 13,
-            ),
-          ),
-          subtitle: subtitle != null ? Text(subtitle!) : null,
-          trailing: trailing ?? const Icon(Icons.chevron_right),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 8,
-            vertical: 0,
-          ),
-        ),
+//   const _SettingTile({
+//     required this.icon,
+//     required this.title,
+//     this.subtitle,
+//     this.trailing,
+//     this.titleColor,
+//     this.iconColor,
+//     this.onTap,
+//   });
 
-        // 🔹 Divider line
-        // const Divider(
-        //   height: 1,
-        //   thickness: 0.8,
-        //   indent: 66, // aligns after icon
-        //   endIndent: 30,
-        // ),
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         ListTile(
+//           dense: true,
+//           onTap: onTap,
+//           leading: Icon(icon, color: iconColor ?? Colors.blue),
+//           title: Text(
+//             title,
+//             style: TextStyle(
+//               color: titleColor ?? Colors.black,
+//               fontWeight: FontWeight.w500,
+//               fontSize: 13,
+//             ),
+//           ),
+//           subtitle: subtitle != null ? Text(subtitle!) : null,
+//           trailing: trailing ?? const Icon(Icons.chevron_right),
+//           contentPadding: const EdgeInsets.symmetric(
+//             horizontal: 8,
+//             vertical: 0,
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
-class _Badge extends StatelessWidget {
-  final int count;
-  const _Badge({required this.count});
+// class _Badge extends StatelessWidget {
+//   final int count;
+//   const _Badge({required this.count});
 
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 12,
-      backgroundColor: Colors.red,
-      child: Text(
-        count.toString(),
-        style: const TextStyle(color: Colors.white, fontSize: 12),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return CircleAvatar(
+//       radius: 12,
+//       backgroundColor: Colors.red,
+//       child: Text(
+//         count.toString(),
+//         style: const TextStyle(color: Colors.white, fontSize: 12),
+//       ),
+//     );
+//   }
+// }
+// //

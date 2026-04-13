@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_app/features/admin_pannel/presentaion/admin_page.dart';
 import 'package:flutter_app/features/auth/login/presentation/login_page.dart';
 import 'package:flutter_app/features/main/presentation/main_page.dart';
 import 'package:flutter_app/features/onboard/onboard_page.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_app/features/payroll/payroll_screen.dart';
 import 'package:flutter_app/features/profile/pages/change_password.dart';
 import 'package:flutter_app/features/profile/pages/holidays_calendar.dart';
 import 'package:flutter_app/features/profile/pages/job_details.dart';
+import 'package:flutter_app/features/profile/pages/jobdetail.dart/empyoee_page/job_page.dart';
 import 'package:flutter_app/features/profile/pages/language.dart';
 import 'package:flutter_app/features/profile/pages/leave_balance.dart';
 import 'package:flutter_app/features/profile/pages/notifications.dart';

@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: Routes.getAll(),
-      home: const OnboardingScreen(),
+      home: const SplashScreen(),
     );
   }
 }
@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
       // New / logged out user
       Navigator.pushReplacementNamed(
         context,
-        Routes.main,
+        Routes.onboarding,
       ); // user firsttime login inapudu first onboard and logn and home page daniki sharepreference vadutha thats it
     }
   }
